@@ -11,7 +11,7 @@ $ copy config/environments/config-example.js config/environments/development.js
 ```
 Modify the environment specific configuration file accordingly.
 
-To run the server us the following command, by default the server will run in development mode:
+To run the server use the following command, by default the server will run in development mode:
 ```bash
 $ node server.js
 ```
