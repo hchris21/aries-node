@@ -3,8 +3,6 @@
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
-// const dateHelper = require('../helpers/date');
-
 module.exports.init = initExpress;
 
 function initExpress(app) {
@@ -14,7 +12,7 @@ function initExpress(app) {
 
 
   app.use(function(req, res, next) {
-    // console.log(`API call ${dateHelper.formattedDate()}`);
+    console.log(`API call`);
     next();
   });
 }

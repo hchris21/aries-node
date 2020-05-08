@@ -13,6 +13,9 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'name is required'],
     unique: false
+  },
+  activities: {
+    type: Array,
   }
 }, { timestamps: { currentTime: () => new Date().getTime() } })
 
