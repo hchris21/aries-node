@@ -9,7 +9,7 @@ require("./config/express").init(app);
 require("./config/routes").init(app);
 require("./config/mongoose").init(app);
 
-app.all("*", function (req, res, next) {
+app.all("*", (req, res, next) => {
   console.log("final midd");
   res.status(404).json({
     status: "fail",
@@ -17,7 +17,7 @@ app.all("*", function (req, res, next) {
   });
 });
 
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   console.log("err", err);
   return res.status(400).json({
     status: "error",
@@ -25,6 +25,6 @@ app.use(function (err, req, res, next) {
   });
 });
 
-app.listen(config.PORT, function () {
+app.listen(config.PORT, () => {
   console.log(`API on port ${config.PORT}`);
 });

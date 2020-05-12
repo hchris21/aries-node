@@ -36,7 +36,7 @@ const getUsersById = (req, res, next) => {
 const createUser = (req, res, next) => {
   const user = new User(req.body);
 
-  user.save(function (err, result) {
+  user.save((err, result) => {
     if (err) {
       return next(err);
     }

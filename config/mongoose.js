@@ -18,7 +18,7 @@ const initMongoose = (app) => {
 };
 
 const cleanup = () => {
-  mongoose.connection.close(function () {
+  mongoose.connection.close(() => {
     process.exit();
   });
 };
