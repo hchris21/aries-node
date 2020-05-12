@@ -10,6 +10,7 @@ const initExpress = (app) => {
 
   app.use((req, res, next) => {
     console.log(`API call`);
+    req.resources = req.resources || {};
     next();
   });
 };

@@ -3,8 +3,9 @@
 const express = require("express");
 const router = express.Router();
 const userCtrl = require("../controllers/users");
+const sharedCtrl = require("../controllers/shared");
 
-router.get("/users", userCtrl.firstMidFromGetUsers, userCtrl.getUsers);
+router.get("/users", userCtrl.getUsers, sharedCtrl.responeToJSON("users"));
 router.get("/users/:userId", userCtrl.getUsersById);
 router.post("/users", userCtrl.createUser);
 router.delete("/users", userCtrl.deleteUser);

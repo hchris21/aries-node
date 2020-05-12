@@ -1,5 +1,6 @@
 "use strict";
 const User = require("../models/users");
+const Reservation = require("../models/reservations");
 
 const firstMidFromGetUsers = (req, res, next) => {
   console.log("firs mid from users");
@@ -11,17 +12,19 @@ const firstMidFromGetSettings = (req, res, next) => {
 };
 
 const getUsers = (req, res, next) => {
-  User.find(function (err, result) {
+  User.find((err, result) => {
     if (err) {
       console.log("err", err);
     }
 
-    res.json({ data: result });
+    req.resources.users = result;
+    // res.json({ data: result });
+    next();
   });
 };
 
 const getUsersById = (req, res, next) => {
-  User.find({ _id: req.params.userId }, function (err, users) {
+  User.find({ _id: req.params.userId }, (err, users) => {
     if (err) {
       console.log("err", err);
     }
@@ -44,10 +47,7 @@ const createUser = (req, res, next) => {
 };
 
 const updateUser = (req, res, next) => {
-  User.findOneAndUpdate({ _id: req.params.userId }, req.body, function (
-    err,
-    users
-  ) {
+  User.findOneAndUpdate({ _id: req.params.userId }, req.body, (err, users) => {
     if (err) {
       return next(err);
     }
@@ -57,8 +57,38 @@ const updateUser = (req, res, next) => {
 };
 
 const deleteUser = (req, res, next) => {
-  console.log("DELETE users");
-  return res.json({ message: "Message success DELETE" });
+  User.findOneAndDelete({ _id: req.params.userId }, req.body, (err, users) => {
+    if (err) {
+      return next(err);
+    }
+
+    res.json({ data: users });
+  });
+};
+
+const getReports = (req, res, next) => {
+  User.find((err, resultUsers) => {
+    if (err) {
+      console.log("err", err);
+    }
+  });
+
+  Reservation.find()
+    .populate("user", "name email")
+    .exec((err, resultReservations) => {
+      if (err) {
+        console.log("err", err);
+      }
+
+      const reports = resultUsers.concat(resultReservations);
+      res.json({ data: reports });
+    });
+};
+
+const responeToJSON = (prop) => {
+  return (req, res, next) => {
+    res.json(req.resources[prop]);
+  };
 };
 
 /**
@@ -71,3 +101,5 @@ module.exports.getUsersById = getUsersById;
 module.exports.createUser = createUser;
 module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;
+module.exports.getReports = getReports;
+module.exports.responeToJSON = responeToJSON;

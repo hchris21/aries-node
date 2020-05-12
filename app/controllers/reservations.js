@@ -2,15 +2,15 @@
 const Reservation = require("../models/reservations");
 
 const getReservations = (req, res, next) => {
-  Reservation.find()
-    .populate("user", "name email")
-    .exec((err, result) => {
-      if (err) {
-        console.log(err, "error");
-      }
+  Reservation.find((err, result) => {
+    if (err) {
+      console.log("err", err);
+    }
 
-      res.json({ data: result });
-    });
+    req.resources.reservations = result;
+    // res.json({ data: result });
+    next();
+  });
 };
 
 const getReservationByUserId = (req, res, next) => {
@@ -62,6 +62,12 @@ const deleteReservation = (req, res, next) => {
   );
 };
 
+const responeToJSON = (prop) => {
+  return (req, res, next) => {
+    res.json(req.resources[prop]);
+  };
+};
+
 /**
  *  Module exports
  */
@@ -70,3 +76,4 @@ module.exports.getReservationByUserId = getReservationByUserId;
 module.exports.createReservation = createReservation;
 module.exports.updateReservation = updateReservation;
 module.exports.deleteReservation = deleteReservation;
+module.exports.responeToJSON = responeToJSON;
